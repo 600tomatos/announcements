@@ -6,7 +6,8 @@
 
 To simplify the work with the repository, 
 all basic commands are grouped using bash scripts and can be run using the make utility.
-Make установлен по умолчанию на Unix системах таких как Ubuntu или Mac
+
+Make is installed by default on Unix systems such as Ubuntu or Mac
 
 To execute the command, simply type `make <command>` in the terminal
 
