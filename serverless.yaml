@@ -73,6 +73,46 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
 
+
+    ErrorSNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: ErrorSNSTopic
+        TopicName: ErrorSNSTopic
+
+
+    DynamoDbThroughtputAlarm:
+      Type: AWS::CloudWatch::Alarm
+      DependsOn:
+        - AnnouncementsTable
+      Properties:
+        ActionsEnabled: true
+        AlarmActions:
+          - !Ref ErrorSNSTopic
+        AlarmDescription: For when the R/W of a dynamoDB table surpasses a certain throughput.
+        ComparisonOperator: GreaterThanOrEqualToThreshold
+        Dimensions:
+          - Name: TableName
+            Value: !Ref AnnouncementsTable
+        EvaluationPeriods: 1
+        MetricName: ConsumedWriteCapacityUnits
+        Namespace: AWS/DynamoDB
+        Period: 300
+        Statistic: Average
+        Threshold: 1
+
+
+    AppOmegaErrorsMetricFilter:
+      Type: AWS::Logs::MetricFilter
+      Properties:
+        LogGroupName: /aws/lambda/announcements-${opt:stage, self:provider.stage}-app
+        FilterPattern: "ERROR"
+        MetricTransformations:
+          - MetricValue: "1"
+            MetricNamespace: "API-${opt:stage, self:provider.stage}"
+            MetricName: "ErrorsCount"
+
+
 package:
   exclude:
     - .cache/**
