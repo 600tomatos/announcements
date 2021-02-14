@@ -7,11 +7,16 @@ import boto3
 
 
 class DynamoClient:
+
+    # Keep clients in class fields allow us to reuse client during hot lambda executions
     client = None
 
-    def __init__(self):
+    def __init__(self, is_local):
         if not self.client:
-            self.client = boto3.resource('dynamodb', endpoint_url="http://localhost:8000", region_name='localhost')
+            if is_local:
+                self.client = boto3.resource('dynamodb', endpoint_url="http://localhost:8000", region_name='localhost')
+            else:
+                self.client = boto3.resource('dynamodb')
 
         self.table = self.client.Table(os.getenv('ANNOUNCEMENTS_TABLE', 'Announcements'))
 

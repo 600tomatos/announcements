@@ -13,7 +13,7 @@
   "dependencies": {
     "serverless": "^1.71.3",
     "serverless-dynamodb-local": "^0.2.39",
-    "serverless-python-requirements": "^3.2.2",
+    "serverless-python-requirements": "^5.1.0",
     "serverless-wsgi": "^1.7.2",
     "to": "^0.2.9",
     "update": "^0.7.4"

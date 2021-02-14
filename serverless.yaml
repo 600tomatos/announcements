@@ -7,11 +7,10 @@ provider:
   region: ${opt:region, 'us-east-2'}
   stage: ${opt:stage, 'dev'}
   runtime: python3.7
-  timeout: 10
+  timeout: 120
   environment:
     STAGE: ${opt:stage, 'dev'}
     ANNOUNCEMENTS_TABLE: !Ref AnnouncementsTable
-    JWT_SECRET: !Ref SecretTokenKey
 
 
   iamRoleStatements:
@@ -35,7 +34,7 @@ provider:
       Resource: "arn:aws:ssm:${opt:region, self:provider.region}:*"
     - Effect: Allow
       Action:
-        -  dynamodb:Scan
+        - dynamodb:Scan
         - dynamodb:PutItem
       Resource: !GetAtt AnnouncementsTable.Arn
 
@@ -51,11 +50,9 @@ functions:
 
   app:
     handler: wsgi_handler.handler
-    eevents:
+    events:
       - http: ANY /
-        cors: true
-      - http: "ANY {proxy+}"
-        cors: true
+      - http: ANY {proxy+}
 
 resources:
 

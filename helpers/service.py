@@ -30,7 +30,7 @@ class Service:
 
         request.stage = stage
 
-        request.db_client = DynamoClient()
+        request.db_client = DynamoClient(is_local=bool(stage))
         request.data = self._get_event_body(request.event)
         request.args = request.event.get("queryStringParameters", {})
         request.view_args = request.event.get("pathParameters", {})

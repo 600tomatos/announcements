@@ -12,7 +12,7 @@ fi
 if [ ! -d "$ROOT_ABS_PATH/node_modules" ]; then
   colored $RED "It seems that you have not activated the virtual environment. Run the 'make init' command first\n"
 else
-  sls dynamodb start &
+  $ROOT_ABS_PATH/node_modules/serverless/bin/serverless.js dynamodb start &
   P1=$!
   $ROOT_ABS_PATH/node_modules/serverless/bin/serverless.js wsgi serve  &
   P2=$!
