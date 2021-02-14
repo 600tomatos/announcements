@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "a1e054d4-eefe-4147-81f6-c4daf0b397d9",
+		"name": "announcements",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new announcement",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "326678aa-ade9-4140-aa2f-0be6446637a6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"pm.test(\"Validate request body title\", function () {",
+							"  var req  = JSON.parse(pm.request.body.raw)",
+							"",
+							"  pm.request.body()",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"My title\",\n  \"description\": \"Some description\"\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/announcements",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"announcements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Announcements list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"My title\",\n  \"description\": \"Some description\"\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/announcements",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"announcements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get auth token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7d6a4f14-c5d3-4494-b1bd-76d26ccf01d0",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set('TOKEN', jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"My title\",\n  \"description\": \"Some description\"\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/auth",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "05d23ecc-d833-4d13-b6c2-c7914dcc431c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a535e8c0-2335-46b9-ae48-2803517f74ba",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

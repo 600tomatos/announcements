@@ -1,0 +1,115 @@
+service: announcements
+
+frameworkVersion: ">=1.2.0 <2.0.0"
+
+provider:
+  name: aws
+  region: ${opt:region, 'us-east-2'}
+  stage: ${opt:stage, 'dev'}
+  runtime: python3.7
+  timeout: 10
+  environment:
+    STAGE: ${opt:stage, 'dev'}
+    ANNOUNCEMENTS_TABLE: !Ref AnnouncementsTable
+    JWT_SECRET: !Ref SecretTokenKey
+
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - logs:DescribeLogGroups
+        - logs:FilterLogEvents
+        - logs:DescribeLogStreams
+        - logs:GetLogEvents
+      Resource: "arn:aws:logs:${opt:region, self:provider.region}:*"
+    - Effect: Allow
+      Action:
+        - ssm:GetParametersByPath
+        - ssm:GetParameter
+        - ssm:GetParameters
+        - ssm:PutParameter
+      Resource: "arn:aws:ssm:${opt:region, self:provider.region}:*"
+    - Effect: Allow
+      Action:
+        -  dynamodb:Scan
+        - dynamodb:PutItem
+      Resource: !GetAtt AnnouncementsTable.Arn
+
+
+plugins:
+  - serverless-wsgi
+  - serverless-python-requirements
+  - serverless-prune-plugin
+  - serverless-dynamodb-local
+
+
+functions:
+
+  app:
+    handler: wsgi_handler.handler
+    eevents:
+      - http: ANY /
+        cors: true
+      - http: "ANY {proxy+}"
+        cors: true
+
+resources:
+
+  Resources:
+
+    AnnouncementsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Announcements
+
+        AttributeDefinitions:
+          - AttributeName: timestamp
+            AttributeType: N
+        KeySchema:
+          - AttributeName: timestamp
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+package:
+  exclude:
+    - .cache/**
+    - coverage
+    - .serverless/**
+    - .dynamodb/**
+    - node_modules/**
+    - postman/**
+    - sls
+    - htmlcov/**
+    - __pycache__/**
+    - static/**
+    - venv/**
+
+
+custom:
+  wsgi:
+    app: app.app
+    packRequirements: false
+  pythonRequirements:
+    dockerizePip: true
+    usePipenv: true
+  prune:
+    automatic: true
+    number: 3
+
+  dynamodb:
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
+      migrate: true
+      seed: true
+      convertEmptyValues: true
