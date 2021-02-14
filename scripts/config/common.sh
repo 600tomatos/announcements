@@ -80,7 +80,7 @@ function command_exists() {
   command -v "$@" >/dev/null 2>&1
 }
 
-function get_current_stage_key() {
-  _bgv=$(aws cloudformation --region us-east-2 describe-stacks --stack-name "rise-api-blue-green-${ENVIRONMENT_NAME}" --query "Stacks[0].Outputs[?OutputKey=='CurrentGreenKey'].OutputValue" --output text)
-  echo $_bgv
+function get_current_service_endpoint() {
+  _cse=$(aws cloudformation --region us-east-2 describe-stacks --stack-name "announcements-${ENVIRONMENT_NAME}" --query "Stacks[0].Outputs[?OutputKey=='ServiceEndpoint'].OutputValue" --output text)
+  echo $_cse
 }

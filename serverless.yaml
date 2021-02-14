@@ -7,7 +7,7 @@ provider:
   region: ${opt:region, 'us-east-2'}
   stage: ${opt:stage, 'dev'}
   runtime: python3.7
-  timeout: 120
+  timeout: 10
   environment:
     STAGE: ${opt:stage, 'dev'}
     ANNOUNCEMENTS_TABLE: !Ref AnnouncementsTable
@@ -104,6 +104,8 @@ resources:
 
     AppOmegaErrorsMetricFilter:
       Type: AWS::Logs::MetricFilter
+      DependsOn:
+        - AppLambdaFunction
       Properties:
         LogGroupName: /aws/lambda/announcements-${opt:stage, self:provider.stage}-app
         FilterPattern: "ERROR"

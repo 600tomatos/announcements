@@ -57,7 +57,7 @@ Use `make deploy` command in order to deploy stack.
 
 Your aws account must have permissions that allow cloudformation to perform unwrapping operations on your behalf !!
 
-
+Also you need to have aws cli installed on your PC with its help postman environment 'Announcements-dev.postman_environment.json' will be generated in the `postman` folder after deployment.
 
 * Select 1 (This corresponds to dev env and this is only one available option) then confirm by entering y or yes:
 
@@ -101,4 +101,17 @@ metrics on which alarms can be built
 
 For dynamoDB I would highlight ConditionalCheckFailedRequests, ReadThrottleEvents,
  ThrottledRequests, TransactionConflict, UserErrors, WriteThrottleEvents.
+ 
+ 
+# Use Postman
+
+Initially, you can find the 'announcements.postman_collection.json' collection in the 'postman'
+folder, as well as a set of environment variables in the 'Announcements-localhost.postman_environment.json' file.
+After you deploy the stack to the cloud, another set of environment variables 'Announcements-dev.postman_environment.json' 
+will be generated.
+
+
+Make a request to the POST `<base url>/auth` endpoint to generate an auth_token. This token will be added automatically when requesting other endpoints
+
+
 

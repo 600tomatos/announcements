@@ -11,10 +11,12 @@ from helpers.response import (
 from helpers.decorators import inject_decorators, token_required
 from models.models import list_announcement_model
 
+
 @inject_decorators(decorators=[token_required])
 class AnnouncementService(Service):
 
     def create(self):
+        """Create new announcement"""
 
         db_client = self.request.db_client
         title = self.request.data.get('title')
@@ -31,12 +33,11 @@ class AnnouncementService(Service):
         if status_code != HTTPStatus.OK:
             return make_error_response('Unable to save announcement')
 
-        return build_response('ok')
+        return build_response('ok', HTTPStatus.CREATED)
 
     def list(self):
+        """Get list of all announcements"""
 
         db_client = self.request.db_client
-
         response = db_client.get_all_announcements()
-
         return build_response(marshal(response['Items'], list_announcement_model))

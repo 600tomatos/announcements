@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a1e054d4-eefe-4147-81f6-c4daf0b397d9",
+		"_postman_id": "b39fd305-94e8-4f13-8773-293de480e7de",
 		"name": "announcements",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,19 +11,23 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "326678aa-ade9-4140-aa2f-0be6446637a6",
+						"id": "a51ac543-7232-4472-a8b7-e7015f5447a3",
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"  pm.response.to.have.status(200);",
+							"const token = pm.environment.get(\"TOKEN\");",
+							"",
+							"",
+							"pm.test(\"Access token is not empty\", function () {",
+							"  pm.expect(token).exist;",
 							"});",
 							"",
 							"",
+							"pm.test(\"Status code is 201 (Created)\", function () {",
+							"  pm.response.to.have.status(201);",
+							"});",
 							"",
 							"",
-							"pm.test(\"Validate request body title\", function () {",
-							"  var req  = JSON.parse(pm.request.body.raw)",
-							"",
-							"  pm.request.body()",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ok\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -58,6 +62,49 @@
 		},
 		{
 			"name": "Announcements list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aecf2272-e2e7-4aae-a82b-b1a00034f6c8",
+						"exec": [
+							"const token = pm.environment.get(\"TOKEN\");",
+							"",
+							"",
+							"pm.test(\"Access token is not empty\", function () {",
+							"  pm.expect(token).exist;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"",
+							"",
+							"pm.test(\"Response is array\", function () {",
+							"    pm.expect(jsonData).to.be.an('array');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Check required keys in response\", function () {",
+							"   if (jsonData.length) {",
+							"       const firstRecord = jsonData[0];",
+							"       pm.expect(firstRecord.title).to.be.an('string').that.is.not.empty;",
+							"       pm.expect(firstRecord.description).to.be.an('string').that.is.not.empty;",
+							"       pm.expect(firstRecord.date).to.be.an('string').that.is.not.empty;",
+							"   }",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -83,7 +130,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"My title\",\n  \"description\": \"Some description\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "{{HOST}}/announcements",
@@ -103,9 +150,30 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7d6a4f14-c5d3-4494-b1bd-76d26ccf01d0",
+						"id": "4c38aaf2-f512-4246-a854-8097eedb6838",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"",
+							"pm.test(\"Token is not empty string\", function () {",
+							"    pm.expect(jsonData.token).to.be.an('string').that.is.not.empty;",
+							"});",
+							"",
+							"",
+							"",
+							"pm.test(\"Token is only one key in response\", function () {",
+							"    pm.expect(Array.from(Object.keys(jsonData))).to.eql(['token']);",
+							"});",
+							"",
+							"",
+							"",
+							"// set token env variable",
 							"pm.environment.set('TOKEN', jsonData.token);"
 						],
 						"type": "text/javascript"

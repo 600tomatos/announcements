@@ -28,3 +28,4 @@ lambdas/.DS_Store
 /pycharm_test_env/
 .dynamodb
 .dynamodb/*
+/postman/Announcements-dev.postman_environment.json

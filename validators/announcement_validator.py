@@ -1,4 +1,4 @@
-from .base_validator import Validator
+from helpers.validator import Validator
 
 
 class AnnouncementValidator(Validator):
