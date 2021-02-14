@@ -82,5 +82,23 @@ Your aws account must have permissions that allow cloudformation to perform unwr
 
 ### Stack elements
 
-The stack consists of DynamoDb, lambla, SSM parameters (secret storage for jwt token), cloudwatch and IAM policy.
+The stack consists of DynamoDb, lambla, SSM parameters (secret storage for jwt token), cloudwatch and IAM policy, SNS (for cloudwatch alarms), Cloudwatch Alarm and MetricFilter.
 These services and this approach (using serverless framework and plugins) were chosen for reasons of cost and development speed.
+
+### Monitoring and alerts
+
+The stack creates dynamoDb ConsumedWriteCapacityUnits alarm which is quite important for
+dynamoDb as it allows detecting low database throughput early on. There is also a lambda
+MetricFilter that scans the 'ERROR' pattern among the logs. Based on this metric, 
+you can build an alarm to detect when the lambda falls with an error.
+
+Of course, there are many more important alarms and metrics that can be implemented.
+
+
+For lambda I would highlight Throttles, ProvisionedConcurrencyInvocations and DestinationDeliveryFailures 
+metrics on which alarms can be built
+
+
+For dynamoDB I would highlight ConditionalCheckFailedRequests, ReadThrottleEvents,
+ ThrottledRequests, TransactionConflict, UserErrors, WriteThrottleEvents.
+

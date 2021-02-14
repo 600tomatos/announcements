@@ -126,6 +126,7 @@ package:
     - __pycache__/**
     - static/**
     - venv/**
+    - images/**
 
 
 custom:
