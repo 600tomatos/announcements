@@ -2,10 +2,10 @@ from flask import request
 from flask_restx import Namespace
 from flask_restx._http import HTTPStatus
 
-from helpers.resource import Resource
-from services.auth import AuthService
-from models.models import auth_model
-from helpers.response import flask_lambda_adapter as lambda_adapter
+from lambdas.helpers.resource import Resource
+from lambdas.services.auth import AuthService
+from lambdas.models.models import auth_model
+from lambdas.helpers.response import flask_lambda_adapter as lambda_adapter
 
 ns = Namespace('auth', description='Token management')
 

@@ -5,7 +5,7 @@ import logging
 from datetime import datetime, timedelta
 import jwt
 
-from helpers.utils.utils import get_or_create_aws_parameter
+from lambdas.helpers.utils.utils import get_or_create_aws_parameter
 
 # This value is used only for local server. For cloud random ssm param is used!
 DEFAULT_SECRET_KEY = 'ff0a2987a037444296e6a341a330fbd7'

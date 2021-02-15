@@ -1,9 +1,9 @@
 from flask_restx import marshal
-from helpers.utils.token import encode_auth_token
+from lambdas.helpers.utils.token import encode_auth_token
 
-from helpers.service import Service
-from helpers.response import build_response
-from models.models import auth_model
+from lambdas.helpers.service import Service
+from lambdas.helpers.response import build_response
+from lambdas.models.models import auth_model
 
 
 class AuthService(Service):

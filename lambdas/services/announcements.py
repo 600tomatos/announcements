@@ -1,15 +1,15 @@
 from flask_restx import marshal
 from flask_restx._http import HTTPStatus
 
-from helpers.service import Service
-from validators.announcement_validator import AnnouncementValidator
+from lambdas.helpers.service import Service
+from lambdas.validators.announcement_validator import AnnouncementValidator
 
-from helpers.response import (
+from lambdas.helpers.response import (
     build_response,
     make_error_response
 )
-from helpers.decorators import inject_decorators, token_required
-from models.models import list_announcement_model
+from lambdas.helpers.decorators import inject_decorators, token_required
+from lambdas.models.models import list_announcement_model
 
 
 @inject_decorators(decorators=[token_required])

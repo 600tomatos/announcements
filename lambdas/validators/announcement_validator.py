@@ -1,4 +1,4 @@
-from helpers.validator import Validator
+from lambdas.helpers.validator import Validator
 
 
 class AnnouncementValidator(Validator):

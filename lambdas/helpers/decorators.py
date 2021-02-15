@@ -1,7 +1,8 @@
 from flask_restx._http import HTTPStatus
 
-from helpers.response import make_error_response
-from helpers.utils.token import decode_auth_token
+from lambdas.helpers.response import make_error_response
+from lambdas.helpers.utils.token import decode_auth_token
+
 
 def inject_decorators(decorators):
     """

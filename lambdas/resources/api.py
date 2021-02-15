@@ -2,9 +2,9 @@ import os
 
 from flask_restx import Api
 
-from resources.auth.resource import ns as auth_ns
-from resources.announcements.resource import ns as announcement_ns
-from models.models import announcement_model, list_announcement_model, auth_model
+from lambdas.resources.auth.resource import ns as auth_ns
+from lambdas.resources.announcements.resource import ns as announcement_ns
+from lambdas.models.models import announcement_model, list_announcement_model, auth_model
 
 authorizations = {
     'apikey': {

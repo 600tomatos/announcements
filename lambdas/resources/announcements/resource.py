@@ -2,10 +2,10 @@ from flask import request
 from flask_restx import Namespace
 from flask_restx._http import HTTPStatus
 
-from helpers.resource import Resource
-from services.announcements import AnnouncementService
-from models.models import announcement_model, list_announcement_model
-from helpers.response import flask_lambda_adapter as lambda_adapter
+from lambdas.helpers.resource import Resource
+from lambdas.services.announcements import AnnouncementService
+from lambdas.models.models import announcement_model, list_announcement_model
+from lambdas.helpers.response import flask_lambda_adapter as lambda_adapter
 
 ns = Namespace('announcements', description='CRUD operations over announcements')
 

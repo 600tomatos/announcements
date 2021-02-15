@@ -3,7 +3,7 @@ import json
 from types import SimpleNamespace
 from six import string_types
 
-from helpers.dynamo_db import DynamoClient
+from lambdas.helpers.dynamo_db import DynamoClient
 
 
 class Service:

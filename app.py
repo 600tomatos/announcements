@@ -2,9 +2,9 @@ import os
 import logging
 
 from flask import Flask
-from helpers.utils.cors import CORS
+from lambdas.helpers.utils.cors import CORS
 
-from resources.api import upgrade_app
+from lambdas.resources.api import upgrade_app
 
 # Set base logging config
 logging.basicConfig()
